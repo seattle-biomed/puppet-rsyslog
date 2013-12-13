@@ -11,16 +11,6 @@
 #  class { 'rsyslog::install': }
 #
 class rsyslog::install {
-  if $rsyslog::rsyslog_package_name != false {
-    package { $rsyslog::rsyslog_package_name:
-      ensure => $rsyslog::package_status,
-    }
-  }
-
-  if $rsyslog::relp_package_name != false {
-    package { $rsyslog::relp_package_name:
-      ensure => $rsyslog::package_status
-    }
-  }
-
+  $packages = [ $rsyslog::rsyslog_package_name, $rsyslog::relp_package_name]
+  ensure_resource(package,$packages,{ ensure => $rsyslog::package_status } )
 }
